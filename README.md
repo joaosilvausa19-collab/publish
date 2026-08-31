@@ -4,6 +4,32 @@ Protótipo web demonstrativo de Engenharia de Produção para análise de uma li
 
 > **Importante:** os valores exibidos no sistema são dados demonstrativos. Eles não representam medições reais da envasadora.
 
+## Plug-and-play
+
+O repositório já está preparado para montar e compilar o dashboard automaticamente. O código principal do dashboard é reconstruído durante a instalação/build a partir do payload versionado, sem configuração manual.
+
+### Rodar no computador
+
+Requer Node.js 20+:
+
+```bash
+npm install
+npm run dev
+```
+
+Abra a URL mostrada pelo Vite, normalmente `http://localhost:5173`.
+
+### Publicação automática
+
+O workflow `.github/workflows/deploy-pages.yml` executa automaticamente em cada atualização da branch `main`:
+
+1. instala as dependências;
+2. reconstrói `src/App.jsx`;
+3. gera a aplicação com Vite;
+4. envia a pasta `dist` para o GitHub Pages.
+
+Se o GitHub Pages ainda não estiver habilitado na conta/repositório, basta ir uma única vez em **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
 ## O que o projeto contém
 
 - Intelligence Center executivo
@@ -23,31 +49,14 @@ Protótipo web demonstrativo de Engenharia de Produção para análise de uma li
 - Ciclo DMAIC
 - Qualidade e rastreabilidade dos dados
 
-## Requisitos
-
-- Node.js 20 ou superior
-- npm
-
-## Rodar localmente
-
-```bash
-npm install
-npm run dev
-```
-
-Abra a URL informada pelo Vite, normalmente:
-
-```text
-http://localhost:5173
-```
-
 ## Gerar versão de produção
 
 ```bash
+npm install
 npm run build
 ```
 
-A aplicação compilada ficará em `dist/`.
+A aplicação compilada fica em `dist/`.
 
 Para testar a build localmente:
 
@@ -55,26 +64,13 @@ Para testar a build localmente:
 npm run preview
 ```
 
-## Publicar no Vercel
+## Vercel
 
-1. Importe este repositório no Vercel.
-2. O framework será identificado como Vite.
-3. Build command: `npm run build`.
-4. Output directory: `dist`.
-5. Publique.
+O arquivo `vercel.json` também deixa o projeto pronto para importação direta no Vercel:
 
-O arquivo `vercel.json` já contém essa configuração.
-
-## Publicar no GitHub Pages
-
-O repositório inclui `.github/workflows/deploy-pages.yml`.
-
-Depois de enviar o projeto ao GitHub:
-
-1. Vá em **Settings → Pages**.
-2. Em **Build and deployment**, escolha **GitHub Actions**.
-3. Faça push na branch `main`.
-4. O workflow criará a build e fará o deploy.
+- Framework: Vite
+- Build command: `npm run build`
+- Output directory: `dist`
 
 ## Estrutura
 
@@ -83,8 +79,11 @@ Depois de enviar o projeto ao GitHub:
 ├── .github/
 │   └── workflows/
 │       └── deploy-pages.yml
+├── payload/
+│   └── app.001...009.b64gz
+├── scripts/
+│   └── assemble-app.mjs
 ├── src/
-│   ├── App.jsx
 │   ├── main.jsx
 │   └── styles.css
 ├── .gitignore
@@ -94,6 +93,8 @@ Depois de enviar o projeto ao GitHub:
 ├── vercel.json
 └── vite.config.js
 ```
+
+`src/App.jsx` é gerado automaticamente pelo script de montagem antes da execução/build.
 
 ## Próxima fase
 
